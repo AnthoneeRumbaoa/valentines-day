@@ -12,17 +12,33 @@
             justify-content: center;
             height: 100vh;
             margin: 0;
-            background-color: #fff0f3;
             font-family: 'Arial', sans-serif;
             overflow: hidden;
+            
+            /* Background Settings - Using your local GitHub file */
+            background-image: url('Meandmywife.jpg'); 
+            background-size: 25%; 
+            background-position: center;
+            background-repeat: no-repeat;
+            background-color: #fff0f3; 
+        }
+
+        /* The semi-transparent overlay to keep text readable */
+        body::before {
+            content: "";
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(255, 240, 243, 0.7); 
+            z-index: -1;
         }
 
         .container {
             text-align: center;
             transition: all 0.3s ease;
+            position: relative;
+            z-index: 1;
         }
 
-        /* The image on top */
         .top-gif {
             width: 200px;
             height: auto;
@@ -34,6 +50,7 @@
             color: #ff4d6d;
             font-size: 2.5rem;
             margin-bottom: 30px;
+            text-shadow: 2px 2px 4px rgba(255, 255, 255, 0.8);
         }
 
         .buttons {
@@ -63,6 +80,7 @@
             background-color: #808080;
             color: white;
             position: relative;
+            z-index: 999; /* Keeps the "No" button on top as it grows */
         }
 
         #celebration {
@@ -82,7 +100,7 @@
     <div id="mainContent" class="container">
         <img src="yellow-dragon-nailong.gif" alt="Cute Illustration" class="top-gif">
         
-        <h1>Will you be my Valentine? ❤️</h1>
+        <h1>Will you be my Valentine, baby? ❤️</h1>
         
         <div class="buttons">
             <button id="yesBtn" onclick="showLove()">Yes</button>
@@ -101,22 +119,25 @@
         function growNo() {
             const noBtn = document.getElementById('noBtn');
             
-            // Increase size
+            // Increase the scale
             noSize += 0.4;
             noBtn.style.transform = `scale(${noSize})`;
             
-            // Move to random position
-            const x = Math.random() * (window.innerWidth - noBtn.offsetWidth);
-            const y = Math.random() * (window.innerHeight - noBtn.offsetHeight);
+            // Calculate random positions, but keep the button inside the screen
+            const padding = 50; 
+            const x = Math.random() * (window.innerWidth - (noBtn.offsetWidth * noSize) - padding);
+            const y = Math.random() * (window.innerHeight - (noBtn.offsetHeight * noSize) - padding);
             
             noBtn.style.position = 'absolute';
-            noBtn.style.left = x + 'px';
-            noBtn.style.top = y + 'px';
+            noBtn.style.left = Math.max(padding, x) + 'px';
+            noBtn.style.top = Math.max(padding, y) + 'px';
         }
 
         function showLove() {
             document.getElementById('mainContent').style.display = 'none';
             document.getElementById('celebration').style.display = 'block';
+            // Optional: When they say yes, make the background fill the whole screen!
+            document.body.style.backgroundSize = "cover";
         }
     </script>
 </body>
