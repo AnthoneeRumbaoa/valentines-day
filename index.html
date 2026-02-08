@@ -15,26 +15,26 @@
             font-family: 'Arial', sans-serif;
             overflow: hidden;
             
-            /* Background Settings - Using your local GitHub file */
-            background-image: url('Meandmywife.jpg'); 
+            /* Background Settings */
+            background-image: url('Meandmywife.jpg'); /* Change to your GitHub filename */
             background-size: 25%; 
+            background-repeat: repeat; /* This fills the screen with the 25% sized image */
             background-position: center;
-            background-repeat: no-repeat;
-            background-color: #fff0f3; 
+            background-color: #fff0f3;
+            transition: background-size 0.5s ease; /* Smooth transition when she says yes */
         }
 
-        /* The semi-transparent overlay to keep text readable */
+        /* The semi-transparent overlay so text stays readable against the pattern */
         body::before {
             content: "";
             position: absolute;
             top: 0; left: 0; right: 0; bottom: 0;
-            background: rgba(255, 240, 243, 0.7); 
+            background: rgba(255, 240, 243, 0.6); 
             z-index: -1;
         }
 
         .container {
             text-align: center;
-            transition: all 0.3s ease;
             position: relative;
             z-index: 1;
         }
@@ -50,7 +50,7 @@
             color: #ff4d6d;
             font-size: 2.5rem;
             margin-bottom: 30px;
-            text-shadow: 2px 2px 4px rgba(255, 255, 255, 0.8);
+            text-shadow: 2px 2px 8px rgba(255, 255, 255, 0.9);
         }
 
         .buttons {
@@ -67,7 +67,7 @@
             border-radius: 12px;
             cursor: pointer;
             font-weight: bold;
-            transition: 0.2s;
+            transition: transform 0.2s;
         }
 
         #yesBtn {
@@ -80,7 +80,6 @@
             background-color: #808080;
             color: white;
             position: relative;
-            z-index: 999; /* Keeps the "No" button on top as it grows */
         }
 
         #celebration {
@@ -118,26 +117,28 @@
 
         function growNo() {
             const noBtn = document.getElementById('noBtn');
+            const yesBtn = document.getElementById('yesBtn');
             
-            // Increase the scale
             noSize += 0.4;
             noBtn.style.transform = `scale(${noSize})`;
             
-            // Calculate random positions, but keep the button inside the screen
-            const padding = 50; 
-            const x = Math.random() * (window.innerWidth - (noBtn.offsetWidth * noSize) - padding);
-            const y = Math.random() * (window.innerHeight - (noBtn.offsetHeight * noSize) - padding);
+            // Random position logic
+            const padding = 100; 
+            const x = Math.random() * (window.innerWidth - padding * 2) + padding;
+            const y = Math.random() * (window.innerHeight - padding * 2) + padding;
             
-            noBtn.style.position = 'absolute';
-            noBtn.style.left = Math.max(padding, x) + 'px';
-            noBtn.style.top = Math.max(padding, y) + 'px';
+            noBtn.style.position = 'fixed';
+            noBtn.style.left = x + 'px';
+            noBtn.style.top = y + 'px';
         }
 
         function showLove() {
             document.getElementById('mainContent').style.display = 'none';
             document.getElementById('celebration').style.display = 'block';
-            // Optional: When they say yes, make the background fill the whole screen!
+            
+            // Change background to full screen on "Yes"
             document.body.style.backgroundSize = "cover";
+            document.body.style.backgroundRepeat = "no-repeat";
         }
     </script>
 </body>
