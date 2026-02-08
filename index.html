@@ -18,7 +18,6 @@
             perspective: 1000px;
         }
 
-        /* The background pattern */
         .bg-pattern {
             position: fixed;
             top: 0; left: 0; width: 100%; height: 100%;
@@ -26,16 +25,17 @@
             background-size: 25%;
             background-repeat: repeat;
             opacity: 0.3;
-            z-index: -2;
+            z-index: 1; /* Lowest layer */
         }
 
         .container {
             text-align: center;
-            z-index: 10;
-            background: rgba(255, 255, 255, 0.8);
-            padding: 20px;
+            z-index: 9999; /* Highest layer - ALWAYS on top */
+            background: rgba(255, 255, 255, 0.9);
+            padding: 30px;
             border-radius: 20px;
             box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            position: relative;
         }
 
         .top-gif {
@@ -56,10 +56,21 @@
             font-weight: bold;
         }
 
-        #yesBtn { background-color: #ff4d6d; color: white; transition: 0.3s; }
-        #noBtn { background-color: #808080; color: white; position: relative; z-index: 1000; }
+        #yesBtn { 
+            background-color: #ff4d6d; 
+            color: white; 
+            transition: 0.3s;
+            position: relative;
+            z-index: 10000; /* Extra high priority */
+        }
 
-        /* The Photo Flashcards */
+        #noBtn { 
+            background-color: #808080; 
+            color: white; 
+            position: relative; 
+            z-index: 500; /* Lower than the container */
+        }
+
         .flashcard {
             position: absolute;
             width: 150px;
@@ -69,7 +80,7 @@
             padding-bottom: 30px;
             box-shadow: 0 10px 20px rgba(0,0,0,0.2);
             border-radius: 5px;
-            z-index: -1;
+            z-index: 2; /* Between background and buttons */
             transition: transform 0.5s ease-out;
             border: 5px solid white;
         }
@@ -80,7 +91,7 @@
             object-fit: cover;
         }
 
-        #celebration { display: none; text-align: center; z-index: 2000; }
+        #celebration { display: none; text-align: center; z-index: 10001; }
         .result-img { max-width: 300px; border-radius: 15px; }
     </style>
 </head>
@@ -106,7 +117,6 @@
         let noSize = 1;
         let photoIndex = 0;
 
-        // LIST YOUR 10 GITHUB IMAGES HERE
         const photos = [
             'A.jpg', 'B.jpg', 'C.jpg', 'D.jpg', 'E.jpg', 'F.jpg', 'G.jpg', 'H.jpg', 'I.jpg', 'J.jpg', 
             'K.jpg', 'L.jpg', 'M.jpg', 'N.jpg', 'O.jpg', 'P.jpg', 'Q.jpg', 'R.jpg', 'S.jpg', 'T.jpg', 
@@ -123,35 +133,36 @@
             noSize += 0.4;
             noBtn.style.transform = `scale(${noSize})`;
             
-            const x = Math.random() * (window.innerWidth - 200);
+            // Limit movement to edges of screen so it doesn't cover the 'Yes' button center
+            const x = Math.random() < 0.5 ? 
+                      Math.random() * (window.innerWidth * 0.3) : // Left 30%
+                      Math.random() * (window.innerWidth * 0.3) + (window.innerWidth * 0.7 - 100); // Right 30%
+            
             const y = Math.random() * (window.innerHeight - 200);
+
             noBtn.style.position = 'fixed';
             noBtn.style.left = x + 'px';
             noBtn.style.top = y + 'px';
         }
 
         function spawnFlashcard() {
-            if (photoIndex >= photos.length) return; // Stop after 10 pics
+            if (photoIndex >= photos.length) return;
 
             const card = document.createElement('div');
             card.className = 'flashcard';
-            
             const img = document.createElement('img');
             img.src = photos[photoIndex];
-            
             card.appendChild(img);
             document.body.appendChild(card);
 
-            // Random position and rotation
             const x = Math.random() * (window.innerWidth - 150);
             const y = Math.random() * (window.innerHeight - 200);
-            const rotation = (Math.random() - 0.5) * 60; // Slanted look
+            const rotation = (Math.random() - 0.5) * 60;
 
             card.style.left = x + 'px';
             card.style.top = y + 'px';
             card.style.transform = `rotate(${rotation}deg) scale(0)`;
 
-            // Small delay for the animation
             setTimeout(() => {
                 card.style.transform = `rotate(${rotation}deg) scale(1)`;
             }, 10);
@@ -162,8 +173,6 @@
         function showLove() {
             document.getElementById('mainContent').style.display = 'none';
             document.getElementById('celebration').style.display = 'block';
-            
-            // Optional: Remove flashcards and make background full on Yes
             const cards = document.querySelectorAll('.flashcard');
             cards.forEach(c => c.style.opacity = '0.5');
         }
