@@ -12,19 +12,28 @@
             justify-content: center;
             height: 100vh;
             margin: 0;
-            background-color: #ffebee;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #fff0f3;
+            font-family: 'Arial', sans-serif;
             overflow: hidden;
-        }
-
-        h1 {
-            color: #d32f2f;
-            font-size: 3rem;
-            text-align: center;
         }
 
         .container {
             text-align: center;
+            transition: all 0.3s ease;
+        }
+
+        /* The image on top */
+        .top-gif {
+            width: 200px;
+            height: auto;
+            margin-bottom: 10px;
+            border-radius: 20px;
+        }
+
+        h1 {
+            color: #ff4d6d;
+            font-size: 2.5rem;
+            margin-bottom: 30px;
         }
 
         .buttons {
@@ -32,26 +41,26 @@
             gap: 20px;
             justify-content: center;
             align-items: center;
-            margin-top: 20px;
         }
 
         button {
             padding: 15px 30px;
             font-size: 1.2rem;
             border: none;
-            border-radius: 50px;
+            border-radius: 12px;
             cursor: pointer;
-            transition: transform 0.2s;
+            font-weight: bold;
+            transition: 0.2s;
         }
 
         #yesBtn {
-            background-color: #4caf50;
+            background-color: #ff4d6d;
             color: white;
-            z-index: 100;
+            box-shadow: 0 4px 15px rgba(255, 77, 109, 0.3);
         }
 
         #noBtn {
-            background-color: #f44336;
+            background-color: #808080;
             color: white;
             position: relative;
         }
@@ -61,23 +70,20 @@
             text-align: center;
         }
 
-        img {
-            max-width: 300px;
+        .result-img {
+            max-width: 350px;
             border-radius: 15px;
-            margin-top: 20px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
-        }
-
-        .heart {
-            color: #e91e63;
-            font-size: 2rem;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
         }
     </style>
 </head>
 <body>
 
     <div id="mainContent" class="container">
-        <h1>Will you be my Valentine? <span class="heart">❤️</span></h1>
+        <img src="yellow-dragon-nailong.gif" alt="Cute Illustration" class="top-gif">
+        
+        <h1>Will you be my Valentine? ❤️</h1>
+        
         <div class="buttons">
             <button id="yesBtn" onclick="showLove()">Yes</button>
             <button id="noBtn" onmouseover="growNo()" onclick="growNo()">No</button>
@@ -85,22 +91,21 @@
     </div>
 
     <div id="celebration" class="container">
-        <h1>Yay! I knew you'd say yes! 💖</h1>
-        <img src="https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExOHp1bmN6amZqZzRreHh3bm9oZzRreHh3bm9oZzRreHh3bm9oZzRreHh3JmVwPXYxX2ludGVybmFsX2dpZl9ieV9pZCZjdD1n/c76IJbxUyvAAt9GQ6I/giphy.gif" alt="Happy Dance">
+        <h1>YESSSSSS!! WOOOOOOOOOH!!</h1>
+        <img src="nailong-yellow-dragon.gif" class="result-img">
     </div>
 
     <script>
-        let noCount = 1;
+        let noSize = 1;
 
         function growNo() {
             const noBtn = document.getElementById('noBtn');
-            const yesBtn = document.getElementById('yesBtn');
             
-            // Make the No button bigger
-            noCount += 0.5;
-            noBtn.style.transform = `scale(${noCount})`;
+            // Increase size
+            noSize += 0.4;
+            noBtn.style.transform = `scale(${noSize})`;
             
-            // Move the No button to a random position so it's hard to click
+            // Move to random position
             const x = Math.random() * (window.innerWidth - noBtn.offsetWidth);
             const y = Math.random() * (window.innerHeight - noBtn.offsetHeight);
             
